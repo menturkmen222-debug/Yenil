@@ -1,0 +1,8 @@
+{
+  "name": "yenil-project",
+  "version": "1.0.0",
+  "main": "index.html",
+  "scripts": {
+    "start": "vercel dev"
+  }
+}
