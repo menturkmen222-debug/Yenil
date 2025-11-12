@@ -11,7 +11,7 @@
   <script>
     async function getBooking() {
       try {
-        const res = await fetch('/api/booking?booking=QUAPWZ');
+        const res = await fetch('/api/booking.js?booking=QUAPWZ');
         if (!res.ok) throw new Error('API error');
         const data = await res.json();
 
