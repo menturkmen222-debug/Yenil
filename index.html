@@ -1,20 +1,36 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Railway API Test</title>
+  <meta charset="UTF-8">
+  <title>Booking Info</title>
 </head>
 <body>
-  <h2>Booking ma'lumotlarini olish</h2>
-  <button id="load">Yuklash</button>
-  <pre id="result"></pre>
+  <h1>Booking Info</h1>
+  <div id="booking">Loading...</div>
 
   <script>
-    document.getElementById("load").onclick = async () => {
-      const res = await fetch("/.netlify/functions/booking");
-      const data = await res.json();
-      document.getElementById("result").textContent = JSON.stringify(data, null, 2);
-    };
+    async function getBooking() {
+      try {
+        const res = await fetch('/api/booking?booking=QUAPWZ');
+        if (!res.ok) throw new Error('API error');
+        const data = await res.json();
+
+        const booking = data.data.booking;
+        document.getElementById('booking').innerHTML = `
+          <p>Name: ${booking.main_contact}</p>
+          <p>Phone: ${booking.phone}</p>
+          <p>Total Price: ${booking.total_price} USD</p>
+          <p>Tickets:</p>
+          <ul>
+            ${booking.tickets.map(t => `<li>${t.passenger.name} ${t.passenger.surname} - ${t.pnrs[0].source} → ${t.pnrs[0].destination}</li>`).join('')}
+          </ul>
+        `;
+      } catch (err) {
+        document.getElementById('booking').innerText = 'Error: ' + err.message;
+      }
+    }
+
+    getBooking();
   </script>
 </body>
 </html>
